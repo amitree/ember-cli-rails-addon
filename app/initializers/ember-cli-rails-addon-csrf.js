@@ -6,8 +6,10 @@ export default {
   initialize() {
     if($ && $.ajaxPrefilter) {
       $.ajaxPrefilter((options, originalOptions, xhr) => {
-        const token = $('meta[name="csrf-token"]').attr('content');
-        xhr.setRequestHeader('X-CSRF-Token', token);
+        if (!options.crossDomain) {
+          const token = $('meta[name="csrf-token"]').attr('content');
+          xhr.setRequestHeader('X-CSRF-Token', token);
+        }
       });
     }
   },
